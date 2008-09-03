@@ -1,7 +1,10 @@
 
-all: client server
-echoc: client.c
-echos: server.c
+all: client server test
+buffer.o:
+client: client.c
+test: test.c
+server: server.c buffer.o
+	$(CC) buffer.o server.c  -o server
 
 clean:
-	rm server client socket
+	rm server client socket buffer.o test

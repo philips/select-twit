@@ -12,7 +12,7 @@ int main(void)
 {
 	int s, t, len;
 	struct sockaddr_un remote;
-	char str[MSG_SIZE];
+	char str[MAX_MSG_SIZE];
 	fd_set fds, tfds;
 
 	FD_ZERO(&fds);
@@ -43,7 +43,7 @@ int main(void)
 		}
 
 		if (FD_ISSET(s, &tfds)) {
-			if ((t = recv(s, str, MSG_SIZE, 0)) > 0) {
+			if ((t = recv(s, str, MAX_MSG_SIZE, 0)) > 0) {
 				str[t] = '\0';
 				printf("%s", str);
 			} else {
@@ -56,7 +56,7 @@ int main(void)
 		if (FD_ISSET(fileno(stdin), &tfds)) {
 			if (feof(stdin))
 				exit(0);
-			fgets(str, MSG_SIZE, stdin);
+			fgets(str, MAX_MSG_SIZE, stdin);
 			if (send(s, str, strlen(str), 0) == -1) {
 				perror("send");
 				exit(1);
